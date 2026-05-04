@@ -9,7 +9,7 @@ An encryption and decryption algorithm based on the Vigenère polyalphabetic cip
 **Course:** CSC 38000 — Computer Security (City College of New York)
 **Instructor:** Dr. Oluwaseyi Ajayi
 **Group:** D
-**Members:** Khan Abdur (Group Leader), Li Cai Rong, Diana Lucero, Md Mamum
+**Members:** Khan Abdur (Group Leader), Cai Rong Li, Diana Lucero, Md Mamum
 
 ## About the Cipher
 
