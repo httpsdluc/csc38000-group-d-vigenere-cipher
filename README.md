@@ -44,10 +44,10 @@ vigenere-cipher/
 
 | Role | Owner | Responsibility                                                                                                                                                                        |
 | ---- | ----- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1    | _TBD_ | Build `encrypt(plaintext, key)` in `encrypt.py`. Handle key cycling, case preservation, and non-alphabetic characters.                                                                |
-| 2    | _TBD_ | Build `decrypt(ciphertext, key)` in `decrypt.py`. Maintain the shared `tableau.py` utility used by both modules.                                                                      |
-| 3    | _TBD_ | Build `main.py` (the user-facing CLI) and write test cases in `tests.py`. Owns the README updates as the project evolves.                                                             |
-| 4    | _TBD_ | Build the presentation slides and write `docs/cryptanalysis.md` covering the cipher's history, strengths, and known attacks (Kasiski examination, Friedman test, frequency analysis). |
+| 1    | Cai Rong Li | Build `encrypt(plaintext, key)` in `encrypt.py`. Handle key cycling, case preservation, and non-alphabetic characters.                                                                |
+| 2    | Md Mamum | Build `decrypt(ciphertext, key)` in `decrypt.py`. Maintain the shared `tableau.py` utility used by both modules.                                                                      |
+| 3    | Diana Lucero | Build `main.py` (the user-facing CLI) and write test cases in `tests.py`. Owns the README updates as the project evolves.                                                             |
+| 4    | Abdur Khan | Build the presentation slides and write `docs/cryptanalysis.md` covering the cipher's history, strengths, and known attacks (Kasiski examination, Friedman test, frequency analysis). |
 
 Fill in the names once the group decides who takes which role.
 
