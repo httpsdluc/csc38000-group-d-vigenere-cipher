@@ -45,7 +45,26 @@ def encrypt(plaintext: str, key: str) -> str:
     #        ciphertext_letter = index_to_char(new_index)
     #      then restore the original case.
     #   5. For non-letters, append the character unchanged.
-    raise NotImplementedError("encrypt() needs to be implemented by Role 1.")
+    # raise NotImplementedError("encrypt() needs to be implemented by Role 1.")
+
+    normalized_key = normalize_key(key)
+    result_chars = []
+    key_index = 0
+
+    for char in plaintext:
+        if char.isalpha():
+            key_letter = normalized_key[key_index % len(normalized_key)]
+            shift = char_to_index(key_letter)
+            cipher_index = (char_to_index(char) + shift) % 26
+            cipher_letter = index_to_char(cipher_index)
+            if char.islower():
+                cipher_letter = cipher_letter.lower()
+            result_chars.append(cipher_letter)
+            key_index += 1
+        else:
+            result_chars.append(char)
+
+    return "".join(result_chars)
 
 
 if __name__ == "__main__":
