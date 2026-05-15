@@ -42,12 +42,12 @@ class VigenereGUI:
             style.theme_use("clam")  # Consistent look across macOS / Windows / Linux
         except tk.TclError:
             pass
-        style.configure("Title.TLabel", font=("Helvetica", 18, "bold"))
+        style.configure("Title.TLabel", font=("Helvetica", 22, "bold"))
         style.configure("Subtitle.TLabel",
-                        font=("Helvetica", 10), foreground="#666")
-        style.configure("Section.TLabel", font=("Helvetica", 11, "bold"))
+                        font=("Helvetica", 12), foreground="#666")
+        style.configure("Section.TLabel", font=("Helvetica", 13, "bold"))
         style.configure("Action.TButton",
-                        font=("Helvetica", 11, "bold"), padding=10)
+                        font=("Helvetica", 13, "bold"), padding=12)
 
     def _build_ui(self) -> None:
         # Header
@@ -67,7 +67,7 @@ class VigenereGUI:
         ttk.Label(content, text="Message:",
                   style="Section.TLabel").pack(anchor="w")
         self.input_text = tk.Text(content, height=4,
-                                  font=("Courier", 12), wrap="word",
+                                  font=("Courier", 14), wrap="word",
                                   relief="solid", borderwidth=1,
                                   bg="white", fg="#111",
                                   insertbackground="#111")
@@ -90,7 +90,7 @@ class VigenereGUI:
                   style="Section.TLabel").pack(side="left")
         self.key_var = tk.StringVar()
         self.key_entry = tk.Entry(key_frame, textvariable=self.key_var,
-                                  font=("Courier", 12),
+                                  font=("Courier", 14),
                                   relief="solid", borderwidth=1,
                                   bg="white", fg="#111",
                                   insertbackground="#111")
@@ -108,7 +108,7 @@ class VigenereGUI:
         ttk.Label(content, text="Result:",
                   style="Section.TLabel").pack(anchor="w")
         self.output_text = tk.Text(content, height=4,
-                                   font=("Courier", 12), wrap="word",
+                                   font=("Courier", 14), wrap="word",
                                    relief="solid", borderwidth=1,
                                    bg="#f8fafc", fg="#111",
                                    insertbackground="#111")
@@ -118,12 +118,14 @@ class VigenereGUI:
         output_buttons.pack(fill="x", pady=(0, 10))
         ttk.Button(output_buttons, text="Copy Result",
                    command=lambda: self._copy(self.output_text)).pack(side="left")
+        ttk.Button(output_buttons, text="⇄ Use Result as Message",
+                   command=self._swap_result_to_input).pack(side="left", padx=5)
 
         # "How it works" panel — shows alignment between message/key/result.
         ttk.Label(content, text="How it works:",
                   style="Section.TLabel").pack(anchor="w")
         self.work_text = tk.Text(content, height=8,
-                                 font=("Courier", 12), wrap="none",
+                                 font=("Courier", 14), wrap="none",
                                  relief="solid", borderwidth=1,
                                  bg="#fffbeb", fg="#111",
                                  insertbackground="#111")
@@ -146,6 +148,28 @@ class VigenereGUI:
 
     def _on_decrypt(self) -> None:
         self._run_cipher(decrypt, "decrypt")
+
+    def _swap_result_to_input(self) -> None:
+        """
+        Move the Result text into the Message box so the user can run the
+        opposite operation on it. Useful for verifying that encrypt + decrypt
+        round-trip back to the original message.
+        """
+        result = self.output_text.get("1.0", "end-1c")
+        if not result:
+            self.status_var.set(
+                "Nothing to swap yet — click Encrypt or Decrypt first."
+            )
+            return
+        self._clear(self.input_text)
+        self.input_text.insert("1.0", result)
+        self._set_output("")
+        next_step = {
+            "encrypt": "Now click Decrypt to reverse it.",
+            "decrypt": "Now click Encrypt to re-encrypt it.",
+        }.get(getattr(self, "_last_mode", None),
+              "Now click Encrypt or Decrypt.")
+        self.status_var.set(f"Result moved to Message. {next_step}")
 
     def _run_cipher(self, cipher_fn, mode: str) -> None:
         message = self.input_text.get("1.0", "end-1c")
@@ -173,6 +197,7 @@ class VigenereGUI:
 
         self._set_output(result)
         self._show_work(message, key, result, mode)
+        self._last_mode = mode
         self.status_var.set(
             f"{'Encrypted' if mode == 'encrypt' else 'Decrypted'} successfully."
         )
